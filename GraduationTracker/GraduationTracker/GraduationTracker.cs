@@ -12,6 +12,15 @@ namespace GraduationTracker
     {   
         public DiplomaResult  HasGraduated(Diploma diploma, Student student)
         {
+            if (diploma == null)
+            {
+                throw new ArgumentNullException($"Argument {nameof(diploma)} cann't be null");
+            }
+            if (student == null)
+            {
+                throw new ArgumentNullException($"Argument {nameof(student)} cann't be null");
+            }
+
             var credits = 0;
             var average = 0;
             var reqRepo = new RequirmentRepo();
