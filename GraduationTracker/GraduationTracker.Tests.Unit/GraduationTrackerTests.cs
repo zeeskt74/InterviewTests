@@ -5,6 +5,7 @@ using System.Linq;
 using GraduationTracker.Models;
 using Should;
 using Moq;
+using GraduationTracker.Repositories;
 
 namespace GraduationTracker.Tests.Unit
 {
@@ -33,7 +34,7 @@ namespace GraduationTracker.Tests.Unit
                 graduated.Add(_tracker.HasGraduated(diploma, student));      
             }
 
-            //one of the student didn't pass due to low marks
+            //few of the student didn't pass due to low marks or low credits
             (graduated.Count(g => g.Status == true) == students.Count()).ShouldBeFalse();
 
         }
@@ -59,6 +60,30 @@ namespace GraduationTracker.Tests.Unit
 
             //Assert
             result.Standing.ShouldEqual(standing);
+        }
+
+        [TestMethod]
+        public void TestHasGraduated_Returns_None()
+        {
+            //Arrange
+            var diploma = DataSeeder.SeedDiploma();
+            var students = DataSeeder.SeedStudents();
+
+            var student = students.First(s => s.Id == 6);
+
+            var mockDiplomaService = new Mock<IDiplomaService>();
+
+            mockDiplomaService.Setup(r => r.GetDiplomaCoursesByRequirement(It.IsAny<Course[]>(), It.IsAny<Requirement>())).Returns(new Course[0]);
+
+            _tracker = new GraduationTracker(mockDiplomaService.Object, new RequirmentRepo());
+
+
+            //Act
+            var result = _tracker.HasGraduated(diploma, student);
+
+
+            //Assert
+            result.Standing.ShouldEqual(STANDING.Remedial);
         }
 
         [TestMethod]

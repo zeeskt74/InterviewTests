@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DiplomaResult.cs" />
+    <Compile Include="DiplomaService.cs" />
+    <Compile Include="IDiplomaService.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Diploma.cs" />
     <Compile Include="GraduationTracker.cs" />

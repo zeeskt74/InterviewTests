@@ -9,7 +9,21 @@ using System.Threading.Tasks;
 namespace GraduationTracker
 {
     public partial class GraduationTracker
-    {   
+    {
+        IDiplomaService _diplomaService;
+        IRequirmentRepo _requirmentRepo;
+
+        public GraduationTracker(IDiplomaService diplomaService, IRequirmentRepo requirmentRepo)
+        {
+            _diplomaService = diplomaService;
+            _requirmentRepo = requirmentRepo;
+        }
+
+        public GraduationTracker() : this(new DiplomaService(), new RequirmentRepo())
+        {
+            //poor man's dependency
+        }
+
         public DiplomaResult  HasGraduated(Diploma diploma, Student student)
         {
             if (diploma == null)
@@ -23,34 +37,29 @@ namespace GraduationTracker
 
             var credits = 0;
             var average = 0;
-            var reqRepo = new RequirmentRepo();
+            var totalMarks = 0;
+            var passedCourses = 0;
 
-            for (int i = 0; i < diploma.Requirements.Length; i++)
+            foreach (var reqId in diploma.Requirements)
             {
-                
-                for (int j = 0; j < student.Courses.Length; j++)
-                {
-                    var requirement = reqRepo.GetById(diploma.Requirements[i]);
+                var requirement = _requirmentRepo.GetById(reqId);
+                var studentCourses = _diplomaService.GetDiplomaCoursesByRequirement(student.Courses, requirement);
 
-                    for (int k = 0; k < requirement.Courses.Length; k++)
-                    {
-                        if (requirement.Courses[k] == student.Courses[j].Id)
-                        {
-                            average += student.Courses[j].Mark;
-                            if (student.Courses[j].Mark >= requirement.MinimumMark)
-                            {
-                                credits += requirement.Credits;
-                            }
-                        }
-                    }
-                }
+                if (studentCourses.Count() != _diplomaService.GetDiplomaCourseCountByRequirment(requirement))
+                    return ResultBuilder.GetDiplomaResult(0);
+
+                totalMarks += studentCourses.Sum(c => c.Mark);
+                passedCourses = studentCourses.Count(c => c.Mark >= requirement.MinimumMark);
+
+                if (passedCourses == requirement.Credits)
+                    credits += requirement.Credits;
             }
 
             //Student didn't complete all the courses
             if(credits != diploma.Credits)
                 return ResultBuilder.GetDiplomaResult(0);
 
-            average = average / student.Courses.Length;
+            average = totalMarks / student.Courses.Length;
 
             return ResultBuilder.GetDiplomaResult(average);
         }
