@@ -6,6 +6,7 @@ using GraduationTracker.Models;
 using Should;
 using Moq;
 using GraduationTracker.Repositories;
+using GraduationTracker.Services;
 
 namespace GraduationTracker.Tests.Unit
 {

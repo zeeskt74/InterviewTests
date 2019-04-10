@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GraduationTracker
+namespace GraduationTracker.Services
 {
     public class DiplomaService : IDiplomaService
     {
@@ -14,9 +14,5 @@ namespace GraduationTracker
             return courses.Where(c => requirement.Courses.Contains(c.Id)).ToArray();
         }
 
-        public int GetDiplomaCourseCountByRequirment(Requirement requirement)
-        {
-            return requirement.Courses.Count();
-        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using GraduationTracker.Models;
 using GraduationTracker.Repositories;
+using GraduationTracker.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,7 @@ namespace GraduationTracker
                 var requirement = _requirmentRepo.GetById(reqId);
                 var studentCourses = _diplomaService.GetDiplomaCoursesByRequirement(student.Courses, requirement);
 
-                if (studentCourses.Count() != _diplomaService.GetDiplomaCourseCountByRequirment(requirement))
+                if (studentCourses.Count() != requirement.CourseCount())
                     return ResultBuilder.GetDiplomaResult(0);
 
                 totalMarks += studentCourses.Sum(c => c.Mark);

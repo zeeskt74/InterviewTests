@@ -1,11 +1,9 @@
 ﻿using GraduationTracker.Models;
 
-namespace GraduationTracker
+namespace GraduationTracker.Services
 {
     public interface IDiplomaService
     {
         Course[] GetDiplomaCoursesByRequirement(Course[] courses, Requirement requirement);
-
-        int GetDiplomaCourseCountByRequirment(Requirement requirement);
     }
 }

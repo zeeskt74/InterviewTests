@@ -1,4 +1,6 @@
-﻿namespace GraduationTracker.Models
+﻿using System.Linq;
+
+namespace GraduationTracker.Models
 {
     public class Requirement
     {
@@ -7,5 +9,10 @@
         public int MinimumMark { get; set; }
         public int Credits { get; set; }
         public int[] Courses { get; set; }
+
+        public int CourseCount()
+        {
+            return Courses.Count();
+        }
     }
 }
