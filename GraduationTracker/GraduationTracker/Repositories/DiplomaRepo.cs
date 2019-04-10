@@ -10,12 +10,20 @@ namespace GraduationTracker.Repositories
     {
         public Diploma[] GetAll()
         {
-            throw new NotImplementedException();
+            return new[]
+            {
+                new Diploma
+                {
+                    Id = 1,
+                    Credits = 4,
+                    Requirements = new int[]{100,102,103,104}
+                }
+            };
         }
 
         public Diploma GetById(int id)
         {
-            throw new NotImplementedException();
+            return GetAll()?.FirstOrDefault(d => d.Id == id);
         }
     }
 }
