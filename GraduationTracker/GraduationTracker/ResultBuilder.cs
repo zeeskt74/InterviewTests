@@ -8,11 +8,10 @@ namespace GraduationTracker
 {
     public class ResultBuilder
     {
+        //Missing logic for SumaCumLaude
         public static DiplomaResult GetDiplomaResult(int average)
         {
-            if (average == 0)
-                return new DiplomaResult { Status = false, Standing = STANDING.None };
-            else if (average < 50)
+            if (average < 50)
                 return new DiplomaResult { Status = false, Standing = STANDING.Remedial };
             else if (average < 80)
                 return new DiplomaResult { Status = true, Standing = STANDING.Average };

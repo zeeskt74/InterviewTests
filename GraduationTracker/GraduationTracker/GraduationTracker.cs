@@ -27,7 +27,8 @@ namespace GraduationTracker
 
             for (int i = 0; i < diploma.Requirements.Length; i++)
             {
-                for(int j = 0; j < student.Courses.Length; j++)
+                
+                for (int j = 0; j < student.Courses.Length; j++)
                 {
                     var requirement = reqRepo.GetById(diploma.Requirements[i]);
 
@@ -36,7 +37,7 @@ namespace GraduationTracker
                         if (requirement.Courses[k] == student.Courses[j].Id)
                         {
                             average += student.Courses[j].Mark;
-                            if (student.Courses[j].Mark > requirement.MinimumMark)
+                            if (student.Courses[j].Mark >= requirement.MinimumMark)
                             {
                                 credits += requirement.Credits;
                             }
@@ -44,6 +45,10 @@ namespace GraduationTracker
                     }
                 }
             }
+
+            //Student didn't complete all the courses
+            if(credits != diploma.Credits)
+                return ResultBuilder.GetDiplomaResult(0);
 
             average = average / student.Courses.Length;
 
