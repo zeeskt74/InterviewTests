@@ -1,4 +1,5 @@
-﻿using GraduationTracker.Repositories;
+﻿using GraduationTracker.Models;
+using GraduationTracker.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
