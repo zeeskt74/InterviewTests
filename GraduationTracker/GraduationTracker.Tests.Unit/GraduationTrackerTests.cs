@@ -10,20 +10,26 @@ namespace GraduationTracker.Tests.Unit
     [TestClass]
     public class GraduationTrackerTests
     {
+        GraduationTracker _tracker;
+        
+        [TestInitialize]
+        public void Init()
+        {
+            _tracker = new GraduationTracker();            
+        }
+
+
         [TestMethod]
         public void TestHasCredits()
         {
-            var tracker = new GraduationTracker();
-
             var diploma = DataSeeder.SeedDiploma();
             var students = DataSeeder.SeedStudents();
-            
 
             var graduated = new List<DiplomaResult>();
 
             foreach(var student in students)
             {
-                graduated.Add(tracker.HasGraduated(diploma, student));      
+                graduated.Add(_tracker.HasGraduated(diploma, student));      
             }
 
             //one of the student didn't pass due to low marks
