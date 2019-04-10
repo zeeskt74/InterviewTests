@@ -72,7 +72,7 @@ namespace GraduationTracker.Tests.Unit
             //tracker.HasGraduated()
         };
             
-            var graduated = new List<Tuple<bool, STANDING>>();
+            var graduated = new List<DiplomaResult>();
 
             foreach(var student in students)
             {
@@ -80,7 +80,7 @@ namespace GraduationTracker.Tests.Unit
             }
 
             //one of the student didn't pass due to low marks
-            Assert.IsFalse(graduated.Count(g => g.Item1 == true) == students.Count());
+            Assert.IsFalse(graduated.Count(g => g.Status == true) == students.Count());
 
         }
 

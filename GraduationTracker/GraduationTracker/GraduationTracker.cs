@@ -10,7 +10,7 @@ namespace GraduationTracker
 {
     public partial class GraduationTracker
     {   
-        public Tuple<bool, STANDING>  HasGraduated(Diploma diploma, Student student)
+        public DiplomaResult  HasGraduated(Diploma diploma, Student student)
         {
             var credits = 0;
             var average = 0;
@@ -38,31 +38,17 @@ namespace GraduationTracker
 
             average = average / student.Courses.Length;
 
-            var standing = STANDING.None;
-
-            if (average < 50)
-                standing = STANDING.Remedial;
+            if(average == 0)
+                return new DiplomaResult { Status = false, Standing = STANDING.None };
+            else if (average < 50)
+                return new DiplomaResult { Status = false, Standing = STANDING.Remedial };
             else if (average < 80)
-                standing = STANDING.Average;
+                return new DiplomaResult { Status = true, Standing = STANDING.Average };
             else if (average < 95)
-                standing = STANDING.MagnaCumLaude;
+                return new DiplomaResult { Status = true, Standing = STANDING.MagnaCumLaude };
             else
-                standing = STANDING.MagnaCumLaude;
-
-            switch (standing)
-            {
-                case STANDING.Remedial:
-                    return new Tuple<bool, STANDING>(false, standing);
-                case STANDING.Average:
-                    return new Tuple<bool, STANDING>(true, standing);
-                case STANDING.SumaCumLaude:
-                    return new Tuple<bool, STANDING>(true, standing);
-                case STANDING.MagnaCumLaude:
-                    return new Tuple<bool, STANDING>(true, standing);
-
-                default:
-                    return new Tuple<bool, STANDING>(false, standing);
-            } 
+                return new DiplomaResult { Status = true, Standing = STANDING.MagnaCumLaude }; 
         }
     }
 }
+    
