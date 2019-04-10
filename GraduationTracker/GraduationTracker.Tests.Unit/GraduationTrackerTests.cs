@@ -78,8 +78,8 @@ namespace GraduationTracker.Tests.Unit
                 graduated.Add(tracker.HasGraduated(diploma, student));      
             }
 
-            
-            Assert.IsFalse(graduated.Any(g => g.Item1 == false));
+            //one of the student didn't pass due to low marks
+            Assert.IsFalse(graduated.Count(g => g.Item1 == true) == students.Count());
 
         }
 
