@@ -38,16 +38,7 @@ namespace GraduationTracker
 
             average = average / student.Courses.Length;
 
-            if(average == 0)
-                return new DiplomaResult { Status = false, Standing = STANDING.None };
-            else if (average < 50)
-                return new DiplomaResult { Status = false, Standing = STANDING.Remedial };
-            else if (average < 80)
-                return new DiplomaResult { Status = true, Standing = STANDING.Average };
-            else if (average < 95)
-                return new DiplomaResult { Status = true, Standing = STANDING.MagnaCumLaude };
-            else
-                return new DiplomaResult { Status = true, Standing = STANDING.MagnaCumLaude }; 
+            return ResultBuilder.GetDiplomaResult(average);
         }
     }
 }
