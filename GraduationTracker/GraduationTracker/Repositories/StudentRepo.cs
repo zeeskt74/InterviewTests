@@ -46,6 +46,22 @@ namespace GraduationTracker.Repositories
         }
 
 
+        public Student[] GetHighestGradsStudents()
+        {
+            var studentList = GetAll().ToList();
+
+            foreach (var s in studentList)
+            {
+                var maxMarks = s.Courses.Max(c => c.Mark);
+
+                s.Courses.ToList().RemoveAll(c => c.Mark != maxMarks);
+
+            }
+
+            return studentList.ToArray();
+        }
+
+
         public Student[] GetAll()
         {
             return new[]
