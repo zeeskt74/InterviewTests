@@ -9,6 +9,25 @@ namespace GraduationTracker.Repositories
 {
     public class StudentRepo : IStudentRepo
     {
+
+        public Student[] GetMathStudents()
+        {
+            var studentList = new List<Student>();
+            
+            foreach(var s in GetAll())
+            {
+                var course = s.Courses.Where(c => c.Name == "Math" && c.Mark > 50);
+
+                if (course.Any())
+                {
+                    studentList.Add(s);
+                }
+            }
+
+            return studentList.ToArray();
+        }
+
+
         public Student[] GetAll()
         {
             return new[]
