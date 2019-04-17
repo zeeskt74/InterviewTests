@@ -10,39 +10,38 @@ namespace GraduationTracker.Repositories
     public class StudentRepo : IStudentRepo
     {
 
-        public Student[] GetMathStudents()
+        public Student[] FilterStudentByCourses(Func<Course, bool> predicate)
         {
             var studentList = new List<Student>();
-            
-            foreach(var s in GetAll())
+            foreach (var s in GetAll())
             {
-                var course = s.Courses.Where(c => c.Name == "Math" && c.Mark >= 50);
+                var course = GetCourses(s, predicate);
 
                 if (course.Any())
                 {
                     studentList.Add(s);
                 }
             }
-
             return studentList.ToArray();
+        }
+
+
+        public Course[] GetCourses(Student student1, Func<Course, bool> predicate)
+        {
+            var courseList = new List<Course>();
+            return student1.Courses.Where(predicate).ToArray();
+            
+        }
+
+        public Student[] GetMathStudents()
+        {
+            return FilterStudentByCourses(c => c.Name == "Math" && c.Mark >= 50);
         }
 
 
         public Student[] GetFailedScienceStudents()
         {
-            var studentList = new List<Student>();
-
-            foreach (var s in GetAll())
-            {
-                var course = s.Courses.Where(c => c.Name == "Science" && c.Mark < 50);
-
-                if (course.Any())
-                {
-                    studentList.Add(s);
-                }
-            }
-
-            return studentList.ToArray();
+            return FilterStudentByCourses(c => c.Name == "Science" && c.Mark < 50);
         }
 
 
