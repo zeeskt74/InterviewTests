@@ -28,6 +28,24 @@ namespace GraduationTracker.Repositories
         }
 
 
+        public Student[] GetFailedScienceStudents()
+        {
+            var studentList = new List<Student>();
+
+            foreach (var s in GetAll())
+            {
+                var course = s.Courses.Where(c => c.Name == "Science" && c.Mark < 50);
+
+                if (course.Any())
+                {
+                    studentList.Add(s);
+                }
+            }
+
+            return studentList.ToArray();
+        }
+
+
         public Student[] GetAll()
         {
             return new[]
