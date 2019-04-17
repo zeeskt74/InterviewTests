@@ -16,7 +16,7 @@ namespace GraduationTracker.Repositories
             
             foreach(var s in GetAll())
             {
-                var course = s.Courses.Where(c => c.Name == "Math" && c.Mark > 50);
+                var course = s.Courses.Where(c => c.Name == "Math" && c.Mark >= 50);
 
                 if (course.Any())
                 {
